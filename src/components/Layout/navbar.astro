@@ -1,4 +1,6 @@
 ---
+import { Image } from "astro:assets";
+import isoLogo from "~/assets/media/branding/iso.svg";
 import Button from "~/components/ui/Button.astro";
 import { branding } from "~/config/branding";
 import { copy } from "~/shared/lib/copy";
@@ -32,9 +34,10 @@ const pathname = Astro.url.pathname;
       class="overflow-hidden transition-all duration-300 ease-in-out"
       style="width: 28px; opacity: 1;"
     >
-      <img
-        src="/iso.svg"
+      <Image
+        src={isoLogo}
         alt={branding.name}
+        height={28}
         class="h-7 w-auto object-contain"
       />
     </div>

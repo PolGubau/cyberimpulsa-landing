@@ -43,7 +43,6 @@ export const copy = {
 		clients: "Clientes",
 		system: "Nuestro Sistema",
 		projects: "Proyectos",
-		blog: "Blog",
 		contact: "Agenda llamada",
 	},
 

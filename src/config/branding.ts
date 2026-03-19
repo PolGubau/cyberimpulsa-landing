@@ -33,8 +33,8 @@ export const branding = {
 
 	// Assets
 	assets: {
-		logo: "/assets/branding/logo.png",
-		thumbnail: "/assets/media/og-image.png",
+		logo: "/assets/media/branding/iso.svg",
+		thumbnail: "/assets/media/branding/og-image.png",
 	},
 } as const;
 

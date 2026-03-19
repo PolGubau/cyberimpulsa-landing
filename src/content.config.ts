@@ -40,24 +40,6 @@ const clients = defineCollection({
 		}),
 });
 
-const blog = defineCollection({
-	loader: glob({ base: "./src/content/blog", pattern: "**/*.{md,mdx}" }),
-	schema: ({ image }) =>
-		z.object({
-			title: z.string(),
-			description: z.string(),
-			publishDate: z.string().transform((str) => new Date(str)),
-			updatedDate: z
-				.string()
-				.transform((str) => new Date(str))
-				.optional(),
-			coverImage: image().optional(),
-			tags: z.array(z.string()).optional(),
-			author: z.string().default("cyberimpulsa"),
-			draft: z.boolean().default(false),
-		}),
-});
-
 export type Client = InferEntrySchema<"clients">;
 export type ClientMetadata = Awaited<
 	ReturnType<typeof getCollection<"clients">>
@@ -68,7 +50,4 @@ export type ProjectMetadata = Awaited<
 	ReturnType<typeof getCollection<"projects">>
 >[number];
 
-export type BlogPost = InferEntrySchema<"blog">;
-export type BlogPostMetadata = typeof blog;
-
-export const collections = { projects, blog, clients };
+export const collections = { projects, clients };

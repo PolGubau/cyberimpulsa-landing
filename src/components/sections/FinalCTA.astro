@@ -1,7 +1,5 @@
 ---
-import { branding } from "~/config/branding";
 import { copy } from "~/shared/lib/copy";
-import AvailableTag from "../ui/AvailableTag.astro";
 import CtaButton from "../ui/CtaButton.astro";
 import SectionTag from "../ui/SectionTag.astro";
 import ClientsMarqueeRail from "../ui/clients/ClientsMarqueeRail.astro";
@@ -50,10 +48,6 @@ const { finalCta } = copy;
 
     <div data-reveal="scale" data-speed="fast" data-easing="elastic">
       <CtaButton />
-    </div>
-
-    <div data-reveal="bottom" data-speed="normal" data-easing="soft">
-      <AvailableTag />
     </div>
   </div>
 </section>

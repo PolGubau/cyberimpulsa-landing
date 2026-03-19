@@ -4,12 +4,11 @@ import type { APIRoute } from "astro";
 export const GET: APIRoute = async ({ site }) => {
 	const baseUrl = site?.toString() || "https://cyberimpulsa.com";
 
-	// Obtener proyectos y posts
+	// Obtener proyectos y clientes
 	const projects = await getCollection(
 		"projects",
 		({ data }) => data.available,
 	);
-	const blogPosts = await getCollection("blog", ({ data }) => !data.draft);
 
 	// Páginas estáticas con prioridad y metadata SEO
 	const staticPages = [
@@ -18,35 +17,28 @@ export const GET: APIRoute = async ({ site }) => {
 			priority: "1.0",
 			changefreq: "weekly",
 			lastmod: new Date().toISOString().split("T")[0],
-		}, // Homepage
+		},
+		{
+			url: "nosotros",
+			priority: "0.9",
+			changefreq: "monthly",
+			lastmod: new Date().toISOString().split("T")[0],
+		},
+		{
+			url: "clientes",
+			priority: "0.9",
+			changefreq: "monthly",
+			lastmod: new Date().toISOString().split("T")[0],
+		},
+		{
+			url: "sistema",
+			priority: "0.9",
+			changefreq: "monthly",
+			lastmod: new Date().toISOString().split("T")[0],
+		},
 		{
 			url: "projects",
-			priority: "0.9",
-			changefreq: "weekly",
-			lastmod: new Date().toISOString().split("T")[0],
-		},
-		{
-			url: "blog",
-			priority: "0.9",
-			changefreq: "daily",
-			lastmod: new Date().toISOString().split("T")[0],
-		},
-		{
-			url: "contact",
 			priority: "0.8",
-			changefreq: "monthly",
-			lastmod: new Date().toISOString().split("T")[0],
-		},
-		// Páginas SEO locales
-		{
-			url: "desarrollo-web-barcelona",
-			priority: "0.85",
-			changefreq: "monthly",
-			lastmod: new Date().toISOString().split("T")[0],
-		},
-		{
-			url: "desarrollo-web-castellon",
-			priority: "0.85",
 			changefreq: "monthly",
 			lastmod: new Date().toISOString().split("T")[0],
 		},
@@ -66,19 +58,8 @@ export const GET: APIRoute = async ({ site }) => {
 				: project.data.endedAt,
 	}));
 
-	// Generar URLs de blog posts
-	const blogUrls = blogPosts.map((post) => ({
-		url: `blog/${post.id}`,
-		priority: "0.7",
-		changefreq: "monthly",
-		lastmod:
-			post.data.publishDate instanceof Date
-				? post.data.publishDate.toISOString().split("T")[0]
-				: post.data.publishDate,
-	}));
-
 	// Combinar todas las URLs
-	const allUrls = [...staticPages, ...projectUrls, ...blogUrls];
+	const allUrls = [...staticPages, ...projectUrls];
 
 	// Generar XML
 	const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
