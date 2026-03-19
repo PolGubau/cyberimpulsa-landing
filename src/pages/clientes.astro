@@ -1,46 +1,19 @@
 ---
+import { render } from "astro:content";
+import Button from "~/components/ui/Button.astro";
 import { branding } from "~/config/branding";
 import MainLayout from "~/layouts/MainLayout.astro";
-import Button from "~/components/ui/Button.astro";
+import { getClients } from "~/shared/lib/collections";
 
-const cases = [
-  {
-    client: "COMETA LABS",
-    type: "Empresa de Diseño y Desarrollo.",
-    description:
-      "Creación de sistema automático para captar empresas B2B, más presencia digital y +80.000€ presupuestados. Resultado: 20.000€ en 2 meses.",
-    metric: "20.000€",
-    metricLabel: "en 2 meses",
-    tag: "Software",
-  },
-  {
-    client: "THE CLOUD GROUP",
-    type: "Empresa de Software a Medida Internacional",
-    description:
-      "Estrategia de marketing para captar medianas y grandes empresas, 180.000€ presupuestados. Resultado: 27.000€ en 2 meses.",
-    metric: "27.000€",
-    metricLabel: "en 2 meses",
-    tag: "Software",
-  },
-  {
-    client: "Nexian Labs",
-    type: "Agencia de IA y Desarrollo para Medianas y Grandes Empresas",
-    description:
-      "Agencia fundada por trabajadores y extrabajadores de INDRA. Sistema de atracción de medianas y grandes empresas en España.",
-    metric: "Enterprise",
-    metricLabel: "clientes captados",
-    tag: "Inteligencia Artificial",
-  },
-  {
-    client: "SMART TALK",
-    type: "Agencia de Inteligencia Artificial",
-    description:
-      "Sistema de captación de empresas B2B a través de campañas de marketing. Resultado: +250.000€ presupuestados en 2 meses.",
-    metric: "+250.000€",
-    metricLabel: "presupuestados",
-    tag: "IA",
-  },
-];
+const cases = await getClients();
+
+// Pre-render MDX bodies
+const renderedCases = await Promise.all(
+  cases.map(async (c) => {
+    const { Content } = await render(c);
+    return { ...c, Content };
+  }),
+);
 ---
 
 <MainLayout
@@ -48,7 +21,9 @@ const cases = [
   description="Casos reales donde estrategia y marketing se unen para cumplir objetivos de empresas B2B tecnológicas."
 >
   <!-- Hero -->
-  <section class="landing-section pt-32 text-center flex flex-col items-center gap-6">
+  <section
+    class="landing-section pt-32 text-center flex flex-col items-center gap-6"
+  >
     <div data-reveal="scale" data-speed="fast" data-easing="bounce">
       <h1 class="text-4xl md:text-6xl font-bold tracking-tight text-foreground">
         Cómo ayudamos a crecer a
@@ -59,7 +34,9 @@ const cases = [
     </div>
     <p
       class="text-lg text-muted-foreground max-w-2xl"
-      data-reveal="bottom" data-speed="normal" data-easing="soft"
+      data-reveal="bottom"
+      data-speed="normal"
+      data-easing="soft"
     >
       Casos reales donde estrategia y marketing se unen para cumplir objetivos
       de empresas B2B tecnológicas.
@@ -70,24 +47,28 @@ const cases = [
   <section class="landing-section">
     <div class="max-w-5xl mx-auto grid md:grid-cols-2 gap-8" data-stagger="100">
       {
-        cases.map((c) => (
+        renderedCases.map(({ data, Content }) => (
           <div
             class="panel flex flex-col gap-5"
-            data-reveal="bottom" data-speed="normal" data-easing="soft"
+            data-reveal="bottom"
+            data-speed="normal"
+            data-easing="soft"
           >
             <div class="flex items-start justify-between gap-4">
               <div>
-                <p class="font-bold text-foreground text-xl">{c.client}</p>
-                <p class="text-primary text-sm font-medium">{c.type}</p>
+                <p class="font-bold text-foreground text-xl">{data.client}</p>
+                <p class="text-primary text-sm font-medium">{data.type}</p>
               </div>
               <span class="shrink-0 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-semibold">
-                {c.tag}
+                {data.tag}
               </span>
             </div>
-            <p class="text-muted-foreground leading-relaxed">{c.description}</p>
+            <div class="text-muted-foreground leading-relaxed prose prose-sm max-w-none">
+              <Content />
+            </div>
             <div class="pt-2 border-t border-muted">
-              <p class="text-3xl font-bold text-primary">{c.metric}</p>
-              <p class="text-sm text-muted-foreground">{c.metricLabel}</p>
+              <p class="text-3xl font-bold text-primary">{data.metric}</p>
+              <p class="text-sm text-muted-foreground">{data.metricLabel}</p>
             </div>
           </div>
         ))
@@ -99,21 +80,28 @@ const cases = [
   <section class="landing-section text-center flex flex-col items-center gap-6">
     <h2
       class="text-3xl font-bold text-foreground"
-      data-reveal="scale" data-speed="normal" data-easing="bounce"
+      data-reveal="scale"
+      data-speed="normal"
+      data-easing="bounce"
     >
       ¿Tu empresa es la próxima?
     </h2>
     <p
       class="text-muted-foreground max-w-md"
-      data-reveal="bottom" data-speed="normal" data-easing="soft"
+      data-reveal="bottom"
+      data-speed="normal"
+      data-easing="soft"
     >
       Agenda una consulta gratuita y analizamos tu situación sin compromiso.
     </p>
     <div data-reveal="scale" data-speed="fast" data-easing="elastic">
-      <a href={branding.contact.calendlyUrl} target="_blank" rel="noopener noreferrer">
+      <a
+        href={branding.contact.calendlyUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
         <Button size="lg" withArrow>Agenda llamada gratuita</Button>
       </a>
     </div>
   </section>
 </MainLayout>
-

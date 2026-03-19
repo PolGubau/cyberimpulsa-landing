@@ -53,7 +53,7 @@ const blog = defineCollection({
 				.optional(),
 			coverImage: image().optional(),
 			tags: z.array(z.string()).optional(),
-			author: z.string().default("doscientos"),
+			author: z.string().default("cyberimpulsa"),
 			draft: z.boolean().default(false),
 		}),
 });

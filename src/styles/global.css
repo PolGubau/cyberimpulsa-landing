@@ -21,8 +21,7 @@
 	--radius: 0.625rem;
 	--background: #f6f7f9;
 	--foreground: #0c110b;
-	--primary: #2a4227;
-	--primary-foreground: oklch(0.984 0.003 247.858);
+	--primary: #272942;
 	--secondary: oklch(0.968 0.007 247.896);
 	--muted: #e3e5e7;
 	--muted-foreground: #62748e;
@@ -34,7 +33,6 @@
   --background: rgb(2, 6, 24);
   --foreground: oklch(0.984 0.003 247.858);
   --primary: #2A4227;
-  --primary-foreground: oklch(0.208 0.042 265.755);
   --secondary: oklch(0.279 0.041 260.031);
   --muted: oklch(0.279 0.041 260.031);
   --muted-foreground: oklch(0.704 0.04 256.788);

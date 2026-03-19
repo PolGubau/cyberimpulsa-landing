@@ -16,7 +16,7 @@ interface Props {
 
 const { title, description, image, type = "website", article } = Astro.props;
 
-const baseUrl = Astro.site?.toString() || "https://doscientos.es";
+const baseUrl = Astro.site?.toString() || "https://cyberimpulsa.com";
 const currentUrl = new URL(Astro.url.pathname, baseUrl).toString();
 
 // Default OG image si no se proporciona una
@@ -68,8 +68,8 @@ const absoluteImageUrl = ogImage.startsWith("http")
 <meta name="twitter:title" content={title} />
 <meta name="twitter:description" content={description} />
 <meta name="twitter:image" content={absoluteImageUrl} />
-<meta name="twitter:site" content="@doscientos" />
-<meta name="twitter:creator" content="@doscientos" />
+<meta name="twitter:site" content="@cyberimpulsa" />
+<meta name="twitter:creator" content="@cyberimpulsa" />
 
 <!-- Additional meta tags -->
 <link rel="canonical" href={currentUrl} />

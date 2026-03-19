@@ -28,7 +28,7 @@ interface Props {
 
 const { type = "organization", article, service, project } = Astro.props;
 
-const baseUrl = Astro.site?.toString() || "https://doscientos.es";
+const baseUrl = Astro.site?.toString() || "https://cyberimpulsa.com";
 
 // Organization + LocalBusiness Schema (siempre presente)
 const organizationSchema = {
@@ -57,11 +57,7 @@ const organizationSchema = {
   },
   priceRange: "€€€",
   openingHours: "Mo-Fr 09:00-18:00",
-  sameAs: [
-    branding.social.linkedin,
-    branding.social.twitter,
-    branding.social.github,
-  ],
+  sameAs: [branding.social.linkedin, branding.social.twitter],
   aggregateRating: {
     "@type": "AggregateRating",
     ratingValue: "5",

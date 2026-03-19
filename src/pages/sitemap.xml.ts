@@ -2,7 +2,7 @@ import { getCollection } from "astro:content";
 import type { APIRoute } from "astro";
 
 export const GET: APIRoute = async ({ site }) => {
-	const baseUrl = site?.toString() || "https://doscientos.es";
+	const baseUrl = site?.toString() || "https://cyberimpulsa.com";
 
 	// Obtener proyectos y posts
 	const projects = await getCollection(
