@@ -1,0 +1,152 @@
+---
+import { branding } from "~/config/branding";
+import AvailableTag from "../ui/AvailableTag.astro";
+import Button from "../ui/Button.astro";
+---
+
+<section
+  class="landing-section bg-primary text-background overflow-hidden relative py-14 lg:rounded-4xl lg:max-w-[90vw] mx-auto mb-20"
+>
+  <!-- Background pattern -->
+  <div class="absolute inset-0 opacity-10">
+    <div
+      class="absolute inset-0"
+      style="background-image: radial-gradient(circle at 2px 2px, currentColor 1px, transparent 0); background-size: 24px 24px;"
+    >
+    </div>
+  </div>
+
+  <div
+    class="relative max-w-4xl mx-auto text-center flex flex-col items-center gap-8"
+    data-stagger="100"
+  >
+    <AvailableTag />
+
+    <h2
+      class="text-4xl md:text-5xl font-bold tracking-tight"
+      data-reveal="scale"
+      data-speed="normal"
+      data-easing="bounce"
+    >
+      ¿Listo para captar más clientes B2B?
+    </h2>
+
+    <p
+      class="text-xl md:text-2xl opacity-90 max-w-2xl"
+      data-reveal="bottom"
+      data-speed="normal"
+      data-easing="soft"
+      data-distance="small"
+    >
+      Agenda una consulta gratuita de 30 minutos
+    </p>
+
+    <p
+      class="opacity-75 max-w-md mx-auto"
+      data-easing="soft"
+      data-distance="small"
+    >
+      Analizamos tu situación, te explicamos exactamente cómo funciona el
+      sistema y si encajamos, empezamos. Sin compromiso.
+    </p>
+
+    <div data-reveal="scale" data-speed="fast" data-easing="elastic">
+      <a
+        href={branding.contact.calendlyUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <Button
+          size="lg"
+          withArrow
+          class="bg-background text-foreground hover:bg-background/90"
+        >
+          Agenda tu consulta gratuita
+        </Button>
+      </a>
+    </div>
+
+    <!-- Guarantees -->
+    <div
+      class="grid md:grid-cols-3 gap-6 pt-12 border-t border-background/20 w-full"
+      data-stagger="80"
+    >
+      <div
+        class="flex flex-col items-center gap-3"
+        data-reveal="bottom"
+        data-speed="normal"
+        data-easing="soft"
+      >
+        <div
+          class="size-12 rounded-full bg-background/10 flex items-center justify-center"
+        >
+          <svg
+            class="size-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+        </div>
+        <p class="font-semibold">Consulta de 30 min</p>
+        <p class="text-sm opacity-75">Sin coste, sin compromiso</p>
+      </div>
+      <div
+        class="flex flex-col items-center gap-3"
+        data-reveal="bottom"
+        data-speed="normal"
+        data-easing="soft"
+      >
+        <div
+          class="size-12 rounded-full bg-background/10 flex items-center justify-center"
+        >
+          <svg
+            class="size-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+            ></path>
+          </svg>
+        </div>
+        <p class="font-semibold">Plan personalizado</p>
+        <p class="text-sm opacity-75">Adaptado a tu sector y objetivos</p>
+      </div>
+      <div
+        class="flex flex-col items-center gap-3"
+        data-reveal="bottom"
+        data-speed="normal"
+        data-easing="soft"
+      >
+        <div
+          class="size-12 rounded-full bg-background/10 flex items-center justify-center"
+        >
+          <svg
+            class="size-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+          </svg>
+        </div>
+        <p class="font-semibold">Resultados en 2 meses</p>
+        <p class="text-sm opacity-75">Primeras oportunidades desde el mes 1</p>
+      </div>
+    </div>
+  </div>
+</section>

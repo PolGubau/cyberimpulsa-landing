@@ -1,0 +1,128 @@
+---
+import { branding } from "~/config/branding";
+import { copy } from "~/shared/lib/copy";
+import FinalCTA from "../sections/FinalCTA.astro";
+
+const empresaLinks = [
+  { label: "Sobre Nosotros", href: "/nosotros" },
+  { label: "Nuestro Equipo", href: "/nosotros" },
+  { label: "Nuestro Sistema", href: "/sistema" },
+  { label: "Contactar", href: branding.contact.calendlyUrl, external: true },
+];
+
+const infoLinks = [
+  { label: "Privacy Policy", href: "/privacy" },
+  { label: "Terms & Conditions", href: "/legal" },
+];
+
+const socialLinks = [
+  { label: "LinkedIn", href: branding.social.linkedin, icon: "in" },
+  { label: "Instagram", href: branding.social.instagram, icon: "ig" },
+  { label: "Twitter / X", href: branding.social.twitter, icon: "x" },
+  { label: "YouTube", href: branding.social.youtube, icon: "yt" },
+];
+---
+
+<section class="bg-foreground text-background">
+  <div class="bg-background rounded-b-[5vw] py-16">
+    <FinalCTA />
+  </div>
+
+  <footer class="bg-foreground text-background py-20 px-6">
+    <div class="max-w-7xl mx-auto">
+      <div class="grid md:grid-cols-2 lg:grid-cols-12 gap-12">
+        <!-- Brand -->
+        <div class="lg:col-span-5 space-y-6">
+          <div class="space-y-3">
+            <h3 class="text-2xl font-bold">{branding.name}</h3>
+            <p class="text-neutral-400 max-w-sm">{copy.footer.tagline}</p>
+          </div>
+          <div class="flex flex-col gap-2">
+            <a
+              href={`mailto:${branding.contact.email}`}
+              class="text-neutral-300 hover:text-white transition-colors text-sm flex items-center gap-2"
+            >
+              <span>✉</span>
+              {branding.contact.email}
+            </a>
+            {
+              branding.contact.phones.map((phone) => (
+                <a
+                  href={`tel:+${phone.number}`}
+                  class="text-neutral-300 hover:text-white transition-colors text-sm flex items-center gap-2"
+                >
+                  <span>📞</span> {phone.display}
+                </a>
+              ))
+            }
+          </div>
+          <!-- Social icons -->
+          <div class="flex items-center gap-4 pt-2">
+            {
+              socialLinks.map((s) => (
+                <a
+                  href={s.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={s.label}
+                  class="size-9 rounded-full bg-white/10 hover:bg-white/20 transition-colors flex items-center justify-center text-xs font-bold text-white"
+                >
+                  {s.icon}
+                </a>
+              ))
+            }
+          </div>
+        </div>
+
+        <!-- Empresa -->
+        <div class="lg:col-span-3 space-y-5">
+          <h4 class="text-sm font-semibold text-white uppercase tracking-wider">
+            Empresa
+          </h4>
+          <ul class="space-y-3">
+            {
+              empresaLinks.map((link) => (
+                <li>
+                  <a
+                    href={link.href}
+                    target={link.external ? "_blank" : undefined}
+                    rel={link.external ? "noopener noreferrer" : undefined}
+                    class="text-neutral-300 hover:text-white transition-colors text-sm"
+                  >
+                    {link.label}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+
+        <!-- Info -->
+        <div class="lg:col-span-4 space-y-5">
+          <h4 class="text-sm font-semibold text-white uppercase tracking-wider">
+            Info
+          </h4>
+          <ul class="space-y-3">
+            {
+              infoLinks.map((link) => (
+                <li>
+                  <a
+                    href={link.href}
+                    class="text-neutral-300 hover:text-white transition-colors text-sm"
+                  >
+                    {link.label}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </div>
+
+      <!-- Bottom bar -->
+      <div class="pt-16 border-t border-white/10 text-center">
+        <p class="text-sm text-neutral-500">{copy.footer.copyright}</p>
+      </div>
+    </div>
+  </footer>
+</section>

@@ -1,0 +1,84 @@
+---
+/**
+ * ClientLogo - Componente para normalizar logos de clientes
+ * Permite customizar color, tamaño y otros aspectos para mantener consistencia visual
+ */
+
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+
+interface Props {
+  logo: ImageMetadata;
+  alt: string;
+  color?: string;
+  height?: number;
+  width?: number;
+  class?: string;
+}
+
+const {
+  logo,
+  alt,
+  color = "hsl(var(--muted-foreground))",
+  height = 40,
+  width = 120,
+  class: className = "",
+} = Astro.props;
+
+// Detectar si es SVG para aplicar color
+const isSVG = logo.src.endsWith(".svg");
+---
+
+<div
+  class:list={[
+    "client-logo-wrapper",
+    "flex items-center justify-center",
+    className,
+  ]}
+  style={`color: ${color}; height: ${height}px; width: ${width}px;`}
+>
+  <Image
+    src={logo}
+    alt={alt}
+    width={width}
+    height={height}
+    class:list={["client-logo", isSVG && "svg-logo"]}
+  />
+</div>
+
+<style>
+  .client-logo-wrapper {
+    opacity: 0.6;
+    transition: opacity 300ms ease;
+    flex-shrink: 0;
+  }
+
+  .client-logo-wrapper:hover {
+    opacity: 1;
+  }
+
+  /* Para SVGs, aplicar el color usando filter */
+  .client-logo-wrapper :global(img),
+  .client-logo-wrapper :global(svg) {
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 100% !important;
+    max-height: 100% !important;
+    object-fit: contain !important;
+    /* Convertir a escala de grises */
+    filter: grayscale(100%) brightness(0.8) opacity(0.7);
+  }
+
+  .client-logo-wrapper:hover :global(img),
+  .client-logo-wrapper:hover :global(svg) {
+    filter: grayscale(100%) brightness(0.8) opacity(1);
+  }
+
+  /* Asegurar que el logo sea visible */
+  .client-logo {
+    display: block;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: contain !important;
+  }
+</style>

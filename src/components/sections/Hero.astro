@@ -1,0 +1,116 @@
+---
+import { branding } from "~/config/branding";
+import { copy } from "~/shared/lib/copy";
+import Button from "../ui/Button.astro";
+import ClientsCarousel from "./ClientsCarousel.astro";
+
+const { hero } = copy;
+const { calendlyUrl } = branding.contact;
+const totalDuration = hero.sectors.length * 3; // seconds per cycle
+---
+
+<section
+  id="hero"
+  class="relative flex flex-col gap-12 justify-center px-6 pt-20 pb-10 items-center"
+>
+  <!-- Main headline -->
+  <div
+    class="flex flex-col items-center gap-4 text-center"
+    data-reveal="scale"
+    data-speed="fast"
+    data-easing="bounce"
+    data-delay="100"
+  >
+    <h1 class="text-3xl md:text-6xl font-bold tracking-tight text-foreground">
+      {hero.title}
+    </h1>
+
+    <!-- Animated rotating sectors -->
+    <div class="relative h-14 md:h-20 overflow-hidden w-full max-w-2xl">
+      {
+        hero.sectors.map((sector, i) => (
+          <span
+            class="animated-sector absolute inset-0 flex items-center justify-center text-2xl md:text-5xl font-bold text-primary"
+            style={`--delay: ${i * 3}s; --total: ${totalDuration}s;`}
+          >
+            {sector}
+          </span>
+        ))
+      }
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div
+    data-reveal="scale"
+    data-speed="fast"
+    data-easing="elastic"
+    data-delay="400"
+    class="flex flex-wrap gap-4 justify-center"
+  >
+    <a
+      href={calendlyUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      id="hero-cta-primary"
+    >
+      <Button size="lg" withArrow>{hero.cta}</Button>
+    </a>
+  </div>
+
+  <script is:inline>
+    document
+      .getElementById("hero-cta-primary")
+      ?.addEventListener("click", () => {
+        if ("gtag" in window) {
+          window.gtag("event", "cta_click", {
+            event_category: "engagement",
+            event_label: "hero-cta-primary",
+          });
+        }
+      });
+  </script>
+
+  <!-- Partners carousel -->
+  <div
+    data-reveal="bottom"
+    data-speed="normal"
+    data-easing="soft"
+    data-delay="600"
+    class="w-full"
+  >
+    <ClientsCarousel />
+  </div>
+</section>
+
+<style>
+  .animated-sector {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: sectorCycle var(--total) ease-in-out infinite;
+    animation-delay: var(--delay);
+  }
+
+  @keyframes sectorCycle {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    5% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    28% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    33% {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+  }
+</style>

@@ -1,0 +1,96 @@
+---
+import SectionHeader from "../ui/SectionHeader.astro";
+import SectionTag from "../ui/SectionTag.astro";
+
+const rows = [
+  {
+    label: "Especialización",
+    us: "Solo B2B tech",
+    them: "Todo tipo de clientes",
+  },
+  {
+    label: "Primeros resultados",
+    us: "En los primeros 2 meses",
+    them: "6-12 meses",
+  },
+  {
+    label: "Estrategia",
+    us: "Sistema probado y replicable",
+    them: "Prueba y error",
+  },
+  {
+    label: "Contenido",
+    us: "Incluido en el servicio",
+    them: "Coste adicional",
+  },
+  {
+    label: "CRM & Automatización",
+    us: "Incluido y configurado",
+    them: "No incluido",
+  },
+  {
+    label: "Seguimiento",
+    us: "Semanal + acceso en tiempo real",
+    them: "Reportes mensuales",
+  },
+  {
+    label: "Campañas publicitarias",
+    us: "Gestionadas y optimizadas",
+    them: "Solo gestión básica",
+  },
+  { label: "Equipo de ventas", us: "Formación incluida", them: "No incluido" },
+];
+---
+
+<section id="faq" class="landing-section">
+  <SectionHeader
+    tag="Comparativa"
+    title="Agencia de marketing genérica"
+    subtitle="vs Klientify"
+    description="No somos una agencia de marketing cualquiera. Somos especialistas en captación B2B para empresas de Cyberseguridad, Software e IA."
+    align="center"
+  />
+
+  <div
+    class="rounded-2xl overflow-hidden border border-muted"
+    data-reveal="bottom"
+    data-speed="normal"
+    data-easing="soft"
+  >
+    <!-- Header -->
+    <div class="grid grid-cols-3 bg-foreground text-background">
+      <div class="p-4 text-sm font-semibold"></div>
+      <div
+        class="p-4 text-sm font-semibold text-center border-l border-background/20"
+      >
+        Klientify
+      </div>
+      <div
+        class="p-4 text-sm font-semibold text-center border-l border-background/20 opacity-60"
+      >
+        Agencia tradicional
+      </div>
+    </div>
+
+    <!-- Rows -->
+    {
+      rows.map((row, i) => (
+        <div
+          class={`grid grid-cols-3 border-t border-muted ${i % 2 === 0 ? "bg-background" : "bg-accent/40"}`}
+        >
+          <div class="p-4 text-sm font-medium text-muted-foreground">
+            {row.label}
+          </div>
+          <div class="p-4 text-sm font-semibold text-primary text-center border-l border-muted flex items-center justify-center gap-2">
+            <span class="text-green-500">✓</span>
+            {row.us}
+          </div>
+          <div class="p-4 text-sm text-muted-foreground text-center border-l border-muted flex items-center justify-center gap-2">
+            <span class="text-red-400">✗</span>
+            {row.them}
+          </div>
+        </div>
+      ))
+    }
+  </div>
+</section>

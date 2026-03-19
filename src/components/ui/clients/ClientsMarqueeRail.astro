@@ -1,0 +1,115 @@
+---
+import { getProjects } from "~/shared/lib/collections";
+import ClientsMarquee from "./ClientsMarquee.astro";
+
+interface Props {
+  color?: string;
+  height?: number;
+  width?: number;
+}
+
+const {
+  color = "hsl(var(--muted-foreground))",
+  height = 50,
+  width = 120,
+} = Astro.props;
+
+// Obtener todos los proyectos con logo
+const allProjects = await getProjects();
+const projectsWithLogo = allProjects.filter((project) => project.data.logo);
+---
+
+<!-- Wrapper que se adapta al contenedor padre -->
+<div class="marquee-wrapper">
+  <!-- Contenedor con overflow y posición relativa -->
+  <div class="marquee-container">
+    <!-- Degradados que se adaptan al contenedor -->
+    <div class="marquee-fade bg-linear-to-r from-background left-0"></div>
+    <div class="marquee-fade bg-linear-to-l from-background right-0"></div>
+
+    <!-- Scrolling content - Duplicado 4 veces para efecto infinito suave -->
+    <div class="marquee-content">
+      <ClientsMarquee
+        projects={projectsWithLogo}
+        color={color}
+        height={height}
+        width={width}
+      />
+      <ClientsMarquee
+        projects={projectsWithLogo}
+        color={color}
+        height={height}
+        width={width}
+      />
+      <ClientsMarquee
+        projects={projectsWithLogo}
+        color={color}
+        height={height}
+        width={width}
+      />
+      <ClientsMarquee
+        projects={projectsWithLogo}
+        color={color}
+        height={height}
+        width={width}
+      />
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Wrapper que toma el ancho del contenedor padre */
+  .marquee-wrapper {
+    width: 100%;
+    position: relative;
+  }
+
+  /* Contenedor con overflow hidden */
+  .marquee-container {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  /* Degradados que se adaptan al contenedor */
+  .marquee-fade {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: clamp(80px, 15vw, 200px); /* Responsive width */
+    z-index: 10;
+    pointer-events: none;
+  }
+
+  /* Contenido que se desplaza */
+  .marquee-content {
+    display: flex;
+    gap: 4rem;
+    padding-bottom: 2.5rem;
+    animation: scroll 20s linear infinite;
+    will-change: transform;
+  }
+
+  /* Animación de scroll - Ajustada para 4 copias (100% / 4 = 25%) */
+  @keyframes scroll {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-25%);
+    }
+  }
+
+  /* Velocidad en móvil */
+  @media (max-width: 768px) {
+    .marquee-content {
+      animation-duration: 20s;
+      gap: 2rem;
+    }
+  }
+
+  /* Pausa al hover */
+  .marquee-content:hover {
+    animation-play-state: paused;
+  }
+</style>

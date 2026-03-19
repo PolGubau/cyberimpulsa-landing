@@ -1,0 +1,115 @@
+---
+import { branding } from "~/config/branding";
+import MainLayout from "~/layouts/MainLayout.astro";
+import Button from "~/components/ui/Button.astro";
+
+const team = [
+  {
+    name: "Rafa de la Vega",
+    role: "Dirección y Marketing",
+    description:
+      "Responsable de la estrategia y la relación con los clientes. Especialista en captación B2B para empresas tecnológicas.",
+    linkedin: "https://linkedin.com",
+    initial: "R",
+  },
+  {
+    name: "Patricia Martínez",
+    role: "Project Manager",
+    description:
+      "Coordina la implementación del sistema de captación. Garantiza que cada proyecto genera resultados medibles desde el primer mes.",
+    linkedin: branding.social.linkedin,
+    initial: "P",
+  },
+  {
+    name: "Joel Perez",
+    role: "Account Manager",
+    description:
+      "Gestiona el día a día con los clientes y el seguimiento de los resultados. Tu punto de contacto para cualquier necesidad.",
+    linkedin: branding.social.linkedin,
+    initial: "J",
+  },
+];
+---
+
+<MainLayout
+  title="Nosotros | Cyberimpulsa - Marketing B2B para Empresas Tecnológicas"
+  description="Somos una empresa de marketing tecnológico centrado en hacer crecer empresas tecnológicas a través de estrategias B2B."
+>
+  <!-- Hero -->
+  <section class="landing-section pt-32 text-center flex flex-col items-center gap-6">
+    <div data-reveal="scale" data-speed="fast" data-easing="bounce">
+      <h1 class="text-4xl md:text-6xl font-bold tracking-tight text-foreground">
+        Nos tomamos en serio
+      </h1>
+      <h1 class="text-4xl md:text-6xl font-bold tracking-tight text-primary">
+        Crecer tu negocio.
+      </h1>
+    </div>
+    <div data-reveal="bottom" data-speed="normal" data-easing="soft" class="max-w-2xl">
+      <p class="text-lg text-muted-foreground">
+        Somos una empresa de marketing tecnológico centrado en hacer crecer
+        empresas tecnológicas a través de estrategias B2B.
+      </p>
+    </div>
+    <div data-reveal="scale" data-speed="fast" data-easing="elastic">
+      <a href={branding.contact.calendlyUrl} target="_blank" rel="noopener noreferrer">
+        <Button size="lg" withArrow>Agenda llamada</Button>
+      </a>
+    </div>
+  </section>
+
+  <!-- Team -->
+  <section class="landing-section">
+    <div class="max-w-5xl mx-auto">
+      <h2
+        class="text-3xl md:text-4xl font-bold text-center text-foreground mb-12"
+        data-reveal="scale" data-speed="normal" data-easing="bounce"
+      >
+        Nuestro Equipo
+      </h2>
+      <div class="grid md:grid-cols-3 gap-8" data-stagger="120">
+        {
+          team.map((member) => (
+            <div
+              class="panel flex flex-col gap-4 text-center"
+              data-reveal="bottom" data-speed="normal" data-easing="soft"
+            >
+              <div class="size-20 rounded-full bg-primary/10 border-2 border-primary/20 flex items-center justify-center text-2xl font-bold text-primary mx-auto">
+                {member.initial}
+              </div>
+              <div>
+                <p class="font-bold text-foreground text-lg">{member.name}</p>
+                <p class="text-primary text-sm font-medium">{member.role}</p>
+              </div>
+              <p class="text-muted-foreground text-sm leading-relaxed">{member.description}</p>
+              <a
+                href={member.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-xs text-primary hover:underline"
+              >
+                Ver en LinkedIn →
+              </a>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="landing-section text-center flex flex-col items-center gap-6">
+    <h2 class="text-3xl font-bold text-foreground" data-reveal="scale" data-speed="normal" data-easing="bounce">
+      ¿Quieres que seamos parte de tu equipo?
+    </h2>
+    <p class="text-muted-foreground max-w-md" data-reveal="bottom" data-speed="normal" data-easing="soft">
+      Agenda una consulta gratuita y te explicamos exactamente cómo trabajamos.
+    </p>
+    <div data-reveal="scale" data-speed="fast" data-easing="elastic">
+      <a href={branding.contact.calendlyUrl} target="_blank" rel="noopener noreferrer">
+        <Button size="lg" withArrow>Agenda llamada gratuita</Button>
+      </a>
+    </div>
+  </section>
+</MainLayout>
+

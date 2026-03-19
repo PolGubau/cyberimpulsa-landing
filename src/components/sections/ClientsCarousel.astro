@@ -1,0 +1,22 @@
+---
+import ClientsMarqueeRail from "../ui/clients/ClientsMarqueeRail.astro";
+---
+
+<section class="w-full">
+  <div class="max-w-5xl mx-auto px-6">
+    <p
+      class="text-center text-xs text-muted-foreground mb-6 uppercase"
+      data-reveal="top"
+      data-speed="fast"
+      data-easing="smooth"
+      data-distance="small"
+    >
+      Confían en nosotros
+    </p>
+
+    <!-- Marquee respeta el max-w-5xl del padre -->
+    <div data-reveal="scale" data-speed="normal" data-easing="smooth">
+      <ClientsMarqueeRail />
+    </div>
+  </div>
+</section>

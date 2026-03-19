@@ -1,0 +1,49 @@
+---
+import StatCard from "~/components/ui/StatCard.astro";
+import SectionHeader from "../ui/SectionHeader.astro";
+
+const stats = [
+  {
+    number: "20K€+",
+    label: "Captados en los primeros 2 meses",
+    description:
+      "Nuestros clientes consiguen presupuestos reales en semanas, no en meses. Resultados medibles desde el primer sprint.",
+  },
+  {
+    number: "100%",
+    label: "Especialización en empresas B2B tech",
+    description:
+      "Solo trabajamos con empresas de Cyberseguridad, Software e IA. Conocemos tu sector, tu cliente y cómo cerrar ventas.",
+  },
+  {
+    number: "3x",
+    label: "Más oportunidades de negocio",
+    description:
+      "Nuestro sistema multiplica los leads cualificados sin incrementar el coste. Proceso replicable y escalable desde el mes 1.",
+  },
+];
+---
+
+<section class="landing-section">
+  <SectionHeader
+    title="Resultados reales para"
+    subtitle="empresas tecnológicas"
+    align="center"
+    tag="Impacto"
+  />
+  <!-- Bento Grid -->
+  <div
+    data-stagger="150"
+    class="gap-4 grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] w-full"
+  >
+    {
+      stats.map((stat) => (
+        <StatCard
+          number={stat.number}
+          label={stat.label}
+          description={stat.description}
+        />
+      ))
+    }
+  </div>
+</section>

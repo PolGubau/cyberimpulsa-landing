@@ -1,0 +1,33 @@
+---
+import type { CollectionEntry } from "astro:content";
+import ClientLogo from "./ClientLogo.astro";
+
+interface Props {
+  projects: CollectionEntry<"projects">[];
+  color?: string;
+  height?: number;
+  width?: number;
+}
+
+const {
+  projects,
+  color = "hsl(var(--muted-foreground))",
+  height = 60,
+  width = 120,
+} = Astro.props;
+---
+
+{
+  projects.map(
+    (project) =>
+      project.data.logo && (
+        <ClientLogo
+          logo={project.data.logo}
+          alt={`Logo de ${project.data.client}`}
+          color={color}
+          height={height}
+          width={width}
+        />
+      ),
+  )
+}

@@ -1,0 +1,168 @@
+---
+import { branding } from "~/config/branding";
+
+interface Props {
+  type?: "organization" | "website" | "article" | "service" | "project";
+  article?: {
+    title?: string;
+    description?: string;
+    image?: string;
+    datePublished?: string;
+    dateModified?: string;
+    author?: string;
+  };
+  service?: {
+    name: string;
+    description: string;
+    image?: string;
+  };
+  project?: {
+    name: string;
+    description: string;
+    image?: string;
+    client?: string;
+    datePublished?: string;
+    url?: string;
+  };
+}
+
+const { type = "organization", article, service, project } = Astro.props;
+
+const baseUrl = Astro.site?.toString() || "https://doscientos.es";
+
+// Organization + LocalBusiness Schema (siempre presente)
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": ["Organization", "LocalBusiness", "ProfessionalService"],
+  name: branding.name,
+  url: baseUrl,
+  logo: `${baseUrl}/og-image.png`,
+  image: `${baseUrl}/og-image.png`,
+  description: branding.slogan,
+  email: branding.contact.email,
+  telephone: branding.contact.phones[0].display,
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: branding.location.city,
+    addressCountry: "ES",
+  },
+  geo: {
+    "@type": "GeoCoordinates",
+    latitude: "41.3851",
+    longitude: "2.1734",
+  },
+  areaServed: {
+    "@type": "Country",
+    name: "España",
+  },
+  priceRange: "€€€",
+  openingHours: "Mo-Fr 09:00-18:00",
+  sameAs: [
+    branding.social.linkedin,
+    branding.social.twitter,
+    branding.social.github,
+  ],
+  aggregateRating: {
+    "@type": "AggregateRating",
+    ratingValue: "5",
+    reviewCount: "12",
+  },
+};
+
+// Website Schema
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: branding.name,
+  url: baseUrl,
+  description: branding.slogan,
+  publisher: {
+    "@type": "Organization",
+    name: branding.name,
+    logo: {
+      "@type": "ImageObject",
+      url: `${baseUrl}/og-image.png`,
+    },
+  },
+};
+
+// Article Schema (para blog posts)
+const articleSchema = article
+  ? {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      headline: article.title,
+      description: article.description,
+      image: article.image || `${baseUrl}/og-image.png`,
+      datePublished: article.datePublished,
+      dateModified: article.dateModified || article.datePublished,
+      author: {
+        "@type": "Person",
+        name: article.author,
+      },
+      publisher: {
+        "@type": "Organization",
+        name: branding.name,
+        logo: {
+          "@type": "ImageObject",
+          url: `${baseUrl}/og-image.png`,
+        },
+      },
+    }
+  : null;
+
+// Service Schema
+const serviceSchema = service
+  ? {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      name: service.name,
+      description: service.description,
+      image: service.image,
+      provider: {
+        "@type": "Organization",
+        name: branding.name,
+        url: baseUrl,
+      },
+    }
+  : null;
+
+// CreativeWork Schema (para proyectos)
+const projectSchema = project
+  ? {
+      "@context": "https://schema.org",
+      "@type": "CreativeWork",
+      name: project.name,
+      description: project.description,
+      image: project.image || `${baseUrl}/og-image.png`,
+      datePublished: project.datePublished,
+      url: project.url || baseUrl,
+      creator: {
+        "@type": "Organization",
+        name: branding.name,
+        url: baseUrl,
+      },
+      ...(project.client && {
+        client: {
+          "@type": "Organization",
+          name: project.client,
+        },
+      }),
+    }
+  : null;
+
+// Seleccionar schemas según el tipo
+// biome-ignore lint/suspicious/noExplicitAny: ok
+const schemas: any[] = [organizationSchema];
+
+if (type === "website") schemas.push(websiteSchema);
+if (type === "article" && articleSchema) schemas.push(articleSchema);
+if (type === "service" && serviceSchema) schemas.push(serviceSchema);
+if (type === "project" && projectSchema) schemas.push(projectSchema);
+---
+
+{
+  schemas.map((schema) => (
+    <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+  ))
+}

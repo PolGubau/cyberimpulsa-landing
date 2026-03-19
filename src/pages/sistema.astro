@@ -1,0 +1,144 @@
+---
+import { branding } from "~/config/branding";
+import MainLayout from "~/layouts/MainLayout.astro";
+import Button from "~/components/ui/Button.astro";
+
+const services = [
+  {
+    name: "Automatización",
+    description:
+      "Centraliza todos tus contactos y comunicación con el cliente en un mismo sitio y automatiza los procesos repetitivos.",
+    icon: "⚡",
+  },
+  {
+    name: "Estrategia",
+    description:
+      "Analizamos tu mercado, tu cliente ideal y tus servicios. Creamos la oferta irresistible que necesita tu empresa.",
+    icon: "🎯",
+  },
+  {
+    name: "Campañas Publicitarias",
+    description:
+      "Somos expertos en gestionar campañas publicitarias y hacer valer cada moneda invertida en Google, Meta y más.",
+    icon: "📢",
+  },
+  {
+    name: "Atención y asesoramiento",
+    description:
+      "Te atendemos de forma rápida y resolutiva todos los días. Ayudaremos a que tu negocio sea más rentable.",
+    icon: "🤝",
+  },
+  {
+    name: "Equipo de Ventas",
+    description:
+      "Queremos conseguir mayor probabilidad de venta. Te formaremos a ti o a un equipo que lo haga.",
+    icon: "💼",
+  },
+  {
+    name: "Desarrollo Web",
+    description:
+      "Desarrollamos páginas web y landing pages diseñadas para hacer una cosa: convertir visitas en clientes.",
+    icon: "🌐",
+  },
+  {
+    name: "Reputación Google Maps",
+    description:
+      "Mejoras tu presencia online y reputación para tener más autoridad en el mercado.",
+    icon: "📍",
+  },
+  {
+    name: "Crear contenido",
+    description:
+      "Desarrollamos contenido, realizamos sesiones de grabación y producimos vídeos entretenidos de tu negocio.",
+    icon: "🎬",
+  },
+  {
+    name: "Optimización de redes sociales",
+    description:
+      "Sabemos cómo captar la atención de las personas en tus redes para que más adelante se conviertan en clientes.",
+    icon: "📱",
+  },
+];
+
+const crmFeatures = [
+  "Whatsapp, redes sociales y email en uno",
+  "Análisis de rentabilidad del sistema",
+  "Crea tu propia base de contactos",
+  "Envía mensajes automáticos a las empresas",
+  "Revisa de qué anuncio llegan tus clientes",
+  "Y mucho más...",
+];
+---
+
+<MainLayout
+  title="Nuestro Sistema | Cyberimpulsa - Captación B2B Tecnológica"
+  description="Nuestro sistema de captación enfocado solamente a empresas B2B tecnológicas. 9 servicios integrados para hacer crecer tu empresa."
+>
+  <!-- Hero -->
+  <section class="landing-section pt-32 text-center flex flex-col items-center gap-6">
+    <div data-reveal="scale" data-speed="fast" data-easing="bounce">
+      <h1 class="text-4xl md:text-6xl font-bold tracking-tight text-primary">
+        Sistema Cyberimpulsa.
+      </h1>
+    </div>
+    <p
+      class="text-lg md:text-xl text-muted-foreground max-w-2xl"
+      data-reveal="bottom" data-speed="normal" data-easing="soft"
+    >
+      Nuestro sistema de captación enfocado solamente a empresas B2B tecnológicas.
+    </p>
+  </section>
+
+  <!-- Services grid -->
+  <section class="landing-section">
+    <div class="max-w-6xl mx-auto grid md:grid-cols-3 gap-6" data-stagger="80">
+      {
+        services.map((service) => (
+          <div
+            class="panel flex flex-col gap-3"
+            data-reveal="bottom" data-speed="normal" data-easing="soft"
+          >
+            <div class="text-3xl">{service.icon}</div>
+            <p class="font-bold text-foreground text-lg italic">{service.name}</p>
+            <p class="text-muted-foreground text-sm leading-relaxed">{service.description}</p>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- CRM Section -->
+  <section class="landing-section bg-primary text-background py-16 lg:rounded-4xl lg:max-w-[90vw] mx-auto">
+    <div class="max-w-4xl mx-auto text-center flex flex-col items-center gap-8 px-6">
+      <div data-reveal="scale" data-speed="fast" data-easing="bounce">
+        <h2 class="text-3xl md:text-5xl font-bold">Control Absoluto</h2>
+        <h2 class="text-3xl md:text-5xl font-bold opacity-80">Incorporamos un CRM al Sistema</h2>
+      </div>
+      <p class="text-lg opacity-90 max-w-2xl" data-reveal="bottom" data-speed="normal" data-easing="soft">
+        Instalamos y proporcionamos nuestro software con IA para gestionar tus
+        oportunidades de venta a través del móvil.
+      </p>
+      <ul class="grid md:grid-cols-2 gap-3 text-left w-full max-w-2xl" data-stagger="80">
+        {
+          crmFeatures.map((feature) => (
+            <li
+              class="flex items-center gap-3 text-sm font-medium"
+              data-reveal="bottom" data-speed="normal" data-easing="soft"
+            >
+              <span class="shrink-0 size-5 rounded-full bg-background/20 flex items-center justify-center text-xs">✓</span>
+              {feature}
+            </li>
+          ))
+        }
+      </ul>
+      <div data-reveal="scale" data-speed="fast" data-easing="elastic">
+        <a href={branding.contact.calendlyUrl} target="_blank" rel="noopener noreferrer">
+          <Button size="lg" class="bg-background text-foreground hover:bg-background/90" withArrow>
+            Agenda llamada gratuita
+          </Button>
+        </a>
+      </div>
+    </div>
+  </section>
+</MainLayout>
+

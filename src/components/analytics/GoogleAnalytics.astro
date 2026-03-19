@@ -1,0 +1,33 @@
+---
+/**
+ * Google Analytics 4 (GA4)
+ * Analytics gratuito de Google
+ */
+
+const GA_MEASUREMENT_ID = import.meta.env.PUBLIC_GA_MEASUREMENT_ID;
+const isDev = import.meta.env.DEV;
+
+// No cargar analytics en desarrollo
+if (isDev) {
+  console.log("📊 Google Analytics disabled in development");
+}
+---
+
+{!isDev && GA_MEASUREMENT_ID && (
+  <>
+    <!-- Preconnect to Google Analytics for faster loading -->
+    <link rel="preconnect" href="https://www.googletagmanager.com" />
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+
+    <!-- Google tag (gtag.js) -->
+    <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}></script>
+    <script is:inline define:vars={{ GA_MEASUREMENT_ID }}>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', GA_MEASUREMENT_ID, {
+        page_path: window.location.pathname,
+      });
+    </script>
+  </>
+)}

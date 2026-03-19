@@ -1,0 +1,87 @@
+---
+import { cn } from "~/shared/lib/utils";
+import Link from "./Link.astro";
+import SectionTag from "./SectionTag.astro";
+
+interface Props {
+  tag?: string;
+  title: string;
+  subtitle?: string;
+  description?: string;
+  linkText?: string;
+  linkHref?: string;
+  descriptionClass?: string;
+  align?: "left" | "center";
+}
+
+const {
+  tag,
+  title,
+  subtitle,
+  description,
+  linkText,
+  linkHref,
+  descriptionClass,
+  align = "left",
+} = Astro.props;
+
+const aligns = {
+  center: "text-center mx-auto items-center",
+  left: "text-left items-start",
+};
+
+const alignClass = aligns[align] || "";
+---
+
+<header class:list={["flex justify-between gap-6 w-full"]}>
+  <div class={`flex flex-col gap-4 max-w-2xl ${alignClass}`} data-stagger="80">
+    {
+      tag && (
+        <div
+          data-reveal="top"
+          data-speed="fast"
+          data-easing="smooth"
+          data-distance="small"
+        >
+          <SectionTag>{tag}</SectionTag>
+        </div>
+      )
+    }
+
+    <div
+      class:list={[
+        "max-w-2xl flex-col text-3xl md:text-4xl font-semibold",
+        alignClass,
+      ]}
+      data-reveal="left"
+      data-speed="normal"
+      data-easing="smooth"
+    >
+      <h2>{title}</h2>
+      {subtitle && <p class="text-primary/80">{subtitle}</p>}
+    </div>
+    {
+      description && (
+        <p
+          class={cn(
+            "text-base text-muted-foreground max-w-md text-pretty leading-relaxed",
+            descriptionClass,
+          )}
+          data-reveal="bottom"
+          data-speed="normal"
+          data-easing="soft"
+          data-distance="small"
+        >
+          {description}
+        </p>
+      )
+    }
+  </div>
+  {
+    linkText && linkHref && (
+      <div data-reveal="right" data-speed="fast" data-easing="smooth">
+        <Link href={linkHref} label={linkText} />
+      </div>
+    )
+  }
+</header>

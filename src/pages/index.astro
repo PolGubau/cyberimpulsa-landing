@@ -1,0 +1,21 @@
+---
+import MainLayout from "~/layouts/MainLayout.astro";
+
+import CaseStudies from "~/components/sections/CaseStudies.astro";
+import FoundingMembers from "~/components/sections/FoundingMembers.astro";
+import Hero from "~/components/sections/Hero.astro";
+import Hype from "~/components/sections/Hype.astro";
+import Method from "~/components/sections/Method.astro";
+
+const title = "Cyberimpulsa | Captación B2B para Cyberseguridad, Software e IA";
+const description =
+    "Ayudamos a crecer empresas de Cyberseguridad, Desarrollo de software/app e Inteligencia Artificial. Sistema de captación B2B con resultados en los primeros 2 meses.";
+---
+
+<MainLayout title={title} description={description}>
+    <Hero />
+    <FoundingMembers />
+    <CaseStudies />
+    <Method />
+    <Hype />
+</MainLayout>

@@ -1,0 +1,138 @@
+---
+import { branding } from "~/config/branding";
+import SectionHeader from "../ui/SectionHeader.astro";
+import Button from "../ui/Button.astro";
+
+const team = [
+  {
+    name: "[Nombre]",
+    role: "Dirección y Estrategia",
+    description:
+      "Responsable de la estrategia global y la relación con los clientes. Especialista en captación B2B para empresas tecnológicas con más de 8 años de experiencia en el sector.",
+    emoji: "🎯",
+    linkedin: branding.social.linkedin,
+  },
+  {
+    name: "[Nombre]",
+    role: "Project Manager",
+    description:
+      "Coordina la implementación de los sistemas de captación. Garantiza que cada proyecto se ejecuta en tiempo y forma, con resultados medibles desde el primer mes.",
+    emoji: "📊",
+    linkedin: branding.social.linkedin,
+  },
+  {
+    name: "[Nombre]",
+    role: "Account Manager",
+    description:
+      "Gestiona el día a día con los clientes y el seguimiento de los resultados. Tu punto de contacto para cualquier duda o ajuste en el sistema.",
+    emoji: "🤝",
+    linkedin: branding.social.linkedin,
+  },
+];
+
+const values = [
+  {
+    icon: "🏆",
+    title: "Especialistas, no generalistas",
+    description: "Solo trabajamos con empresas B2B tecnológicas. Esa especialización nos hace mejores en lo que hacemos.",
+  },
+  {
+    icon: "📈",
+    title: "Obsesionados con los resultados",
+    description: "Cada acción que tomamos se mide. Si no genera resultados, lo cambiamos. Sin excusas.",
+  },
+  {
+    icon: "🤝",
+    title: "Equipo de tu empresa",
+    description: "No somos una agencia externa. Nos integramos en tu negocio y trabajamos como si fuéramos parte de tu equipo.",
+  },
+];
+---
+
+<section class="landing-section">
+  <div class="max-w-6xl mx-auto">
+    <SectionHeader
+      tag="Nuestro equipo"
+      title="Nos tomamos en serio"
+      subtitle="crecer tu negocio."
+      description="Somos una empresa de marketing especializada en hacer crecer empresas tecnológicas a través de estrategias B2B probadas."
+      align="center"
+    />
+
+    <!-- Values -->
+    <div class="grid md:grid-cols-3 gap-6 mb-20" data-stagger="100">
+      {
+        values.map((value) => (
+          <div
+            class="panel flex flex-col gap-3"
+            data-reveal="bottom"
+            data-speed="normal"
+            data-easing="soft"
+          >
+            <div class="text-3xl">{value.icon}</div>
+            <h3 class="text-lg font-bold text-foreground">{value.title}</h3>
+            <p class="text-muted-foreground text-sm leading-relaxed">{value.description}</p>
+          </div>
+        ))
+      }
+    </div>
+
+    <!-- Team -->
+    <div class="mb-12">
+      <h3
+        class="text-2xl font-bold text-center text-foreground mb-10"
+        data-reveal="scale"
+        data-speed="normal"
+        data-easing="bounce"
+      >
+        Las personas detrás de Klientify
+      </h3>
+      <div class="grid md:grid-cols-3 gap-8" data-stagger="120">
+        {
+          team.map((member) => (
+            <div
+              class="panel flex flex-col gap-4 text-center"
+              data-reveal="bottom"
+              data-speed="normal"
+              data-easing="soft"
+            >
+              <div class="size-20 rounded-full bg-primary/10 flex items-center justify-center text-4xl mx-auto">
+                {member.emoji}
+              </div>
+              <div>
+                <p class="font-bold text-foreground text-lg">{member.name}</p>
+                <p class="text-primary text-sm font-medium">{member.role}</p>
+              </div>
+              <p class="text-muted-foreground text-sm leading-relaxed">{member.description}</p>
+              <a
+                href={member.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-xs text-muted-foreground hover:text-primary transition-colors"
+              >
+                Ver perfil en LinkedIn →
+              </a>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div
+      class="text-center"
+      data-reveal="scale"
+      data-speed="fast"
+      data-easing="elastic"
+    >
+      <a
+        href={branding.contact.calendlyUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <Button size="lg" withArrow>Conoce al equipo — Agenda una llamada</Button>
+      </a>
+    </div>
+  </div>
+</section>
+

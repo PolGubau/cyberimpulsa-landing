@@ -1,0 +1,18 @@
+---
+import { branding } from "~/config/branding";
+import Button, { type ButtonProps } from "./Button.astro";
+
+type Props = {
+  label?: string;
+} & ButtonProps;
+
+const { label = "Agenda una consulta gratuita", ...buttonProps } = Astro.props;
+---
+
+<a
+  href={branding.contact.calendlyUrl}
+  target="_blank"
+  rel="noopener noreferrer"
+>
+  <Button withArrow {...buttonProps}>{label}</Button>
+</a>

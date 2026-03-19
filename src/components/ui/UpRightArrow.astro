@@ -1,0 +1,19 @@
+---
+import { ArrowUpRight } from "@lucide/astro";
+import { cn } from "~/shared/lib/utils";
+
+type Props = {
+  class?: string;
+};
+
+const { class: className } = Astro.props;
+---
+
+<div
+  class={cn(
+    "rounded-full p-1 bg-stone-500/20 border border-stone-500/40 flex items-center justify-center group-hover:rotate-45 transition-all duration-300",
+    className,
+  )}
+>
+  <ArrowUpRight class="size-4" />
+</div>
