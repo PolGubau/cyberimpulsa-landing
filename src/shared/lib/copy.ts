@@ -1,13 +1,15 @@
 export const copy = {
 	hero: {
-		title: "Ayudamos a crecer Empresas de...",
+		title: "Impulsamos el Crecimiento de tu empresa Tecnológica",
+		subtitle:
+			"A través de estrategias y sistemas de Marketing enfocadas al B2B.",
+		cta: "Contactar",
+		sectorsLabel: "Ayudamos a crecer Empresas de...",
 		sectors: [
 			"Cyberseguridad",
 			"Desarrollo de software/app",
 			"Inteligencia Artificial",
 		],
-		brand: "Cyberimpulsa.",
-		cta: "Agenda llamada",
 	},
 
 	method: {

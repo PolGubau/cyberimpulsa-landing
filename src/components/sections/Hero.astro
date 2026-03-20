@@ -2,60 +2,71 @@
 import { branding } from "~/config/branding";
 import { copy } from "~/shared/lib/copy";
 import Button from "../ui/Button.astro";
+import Globe from "../ui/Globe.astro";
 import ClientsCarousel from "./ClientsCarousel.astro";
 
 const { hero } = copy;
 const { calendlyUrl } = branding.contact;
-const totalDuration = hero.sectors.length * 3; // seconds per cycle
+const totalDuration = hero.sectors.length * 3;
 ---
 
-<section
-  id="hero"
-  class="relative flex flex-col gap-12 justify-center px-6 pt-20 pb-10 items-center"
->
-  <!-- Main headline -->
+<section id="hero" class="relative flex flex-col w-full px-6">
+  <!-- Bloque superior: grid 2 columnas en desktop, min 80vh -->
   <div
-    class="flex flex-col items-center gap-4 text-center"
-    data-reveal="scale"
-    data-speed="fast"
-    data-easing="bounce"
-    data-delay="100"
+    class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center pt-28 pb-16 min-h-[80vh] max-w-6xl mx-auto w-full"
   >
-    <h1 class="text-3xl md:text-6xl font-bold tracking-tight text-foreground">
-      {hero.title}
-    </h1>
+    <!-- Columna izquierda: texto + CTA -->
+    <div class="flex flex-col gap-10 justify-center items-start">
+      <!-- Headline + subtitle -->
+      <div class="flex flex-col items-start gap-4" data-stagger="120">
+        <h1
+          class="text-4xl md:text-6xl font-bold tracking-tight text-foreground text-balance"
+          data-reveal="scale"
+          data-speed="fast"
+          data-easing="bounce"
+          data-delay="100"
+        >
+          {hero.title}
+        </h1>
+        <p
+          class="text-lg md:text-xl text-muted-foreground"
+          data-reveal="bottom"
+          data-speed="normal"
+          data-easing="soft"
+          data-delay="200"
+        >
+          {hero.subtitle}
+        </p>
+      </div>
 
-    <!-- Animated rotating sectors -->
-    <div class="relative h-14 md:h-20 overflow-hidden w-full max-w-2xl">
-      {
-        hero.sectors.map((sector, i) => (
-          <span
-            class="animated-sector absolute inset-0 flex items-center justify-center text-2xl md:text-5xl font-bold text-primary"
-            style={`--delay: ${i * 3}s; --total: ${totalDuration}s;`}
-          >
-            {sector}
-          </span>
-        ))
-      }
+      <!-- CTA -->
+      <div
+        data-reveal="scale"
+        data-speed="fast"
+        data-easing="elastic"
+        data-delay="350"
+      >
+        <a
+          href={calendlyUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          id="hero-cta-primary"
+        >
+          <Button size="lg" withArrow>{hero.cta}</Button>
+        </a>
+      </div>
     </div>
-  </div>
 
-  <!-- CTA -->
-  <div
-    data-reveal="scale"
-    data-speed="fast"
-    data-easing="elastic"
-    data-delay="400"
-    class="flex flex-wrap gap-4 justify-center"
-  >
-    <a
-      href={calendlyUrl}
-      target="_blank"
-      rel="noopener noreferrer"
-      id="hero-cta-primary"
+    <!-- Columna derecha: globo terráqueo -->
+    <div
+      class="hidden md:flex items-center justify-center"
+      data-reveal="scale"
+      data-speed="normal"
+      data-easing="soft"
+      data-delay="400"
     >
-      <Button size="lg" withArrow>{hero.cta}</Button>
-    </a>
+      <Globe class="w-full max-w-[500px]" 
+    </div>
   </div>
 
   <script is:inline>
@@ -71,22 +82,63 @@ const totalDuration = hero.sectors.length * 3; // seconds per cycle
       });
   </script>
 
-  <!-- Partners carousel -->
+  <!-- Logos: centrado, limitado a max-w-6xl -->
   <div
     data-reveal="bottom"
     data-speed="normal"
     data-easing="soft"
-    data-delay="600"
-    class="w-full"
+    data-delay="500"
+    class="w-full max-w-6xl mx-auto"
   >
     <ClientsCarousel />
+  </div>
+
+  <!-- Animated sectors: centrado -->
+  <div
+    class="flex flex-col items-center gap-4 text-center w-full max-w-6xl mx-auto py-16"
+    data-reveal="bottom"
+    data-speed="normal"
+    data-easing="soft"
+    data-delay="700"
+  >
+    <p class="text-base text-muted-foreground uppercase tracking-widest">
+      {hero.sectorsLabel}
+    </p>
+    <div class="sectors-container">
+      {
+        hero.sectors.map((sector, i) => (
+          <span
+            class="animated-sector text-4xl md:text-6xl font-bold text-primary"
+            style={`--delay: ${i * 3}s; --total: ${totalDuration}s;`}
+          >
+            {sector}
+          </span>
+        ))
+      }
+    </div>
   </div>
 </section>
 
 <style>
+  .sectors-container {
+    position: relative;
+    height: 3.5rem;
+    width: 100%;
+  }
+
+  @media (min-width: 768px) {
+    .sectors-container {
+      height: 5rem;
+    }
+  }
+
   .animated-sector {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    white-space: nowrap;
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateX(-50%) translateY(20px);
     animation: sectorCycle var(--total) ease-in-out infinite;
     animation-delay: var(--delay);
   }
@@ -94,23 +146,23 @@ const totalDuration = hero.sectors.length * 3; // seconds per cycle
   @keyframes sectorCycle {
     0% {
       opacity: 0;
-      transform: translateY(20px);
+      transform: translateX(-50%) translateY(20px);
     }
     5% {
       opacity: 1;
-      transform: translateY(0);
+      transform: translateX(-50%) translateY(0);
     }
     28% {
       opacity: 1;
-      transform: translateY(0);
+      transform: translateX(-50%) translateY(0);
     }
     33% {
       opacity: 0;
-      transform: translateY(-20px);
+      transform: translateX(-50%) translateY(-20px);
     }
     100% {
       opacity: 0;
-      transform: translateY(-20px);
+      transform: translateX(-50%) translateY(-20px);
     }
   }
 </style>

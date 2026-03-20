@@ -1,58 +1,41 @@
 ---
-import { getProjects } from "~/shared/lib/collections";
-import ClientsMarquee from "./ClientsMarquee.astro";
+import { Image } from "astro:assets";
+import autoboost from "~/assets/media/logos/autoboost.webp";
+import cloudGroup from "~/assets/media/logos/cloud-group.webp";
+import cometa from "~/assets/media/logos/cometa.webp";
+import nexian from "~/assets/media/logos/nexian.webp";
+import olliria from "~/assets/media/logos/olliria.webp";
+import rv from "~/assets/media/logos/rv.webp";
 
-interface Props {
-  color?: string;
-  height?: number;
-  width?: number;
-}
-
-const {
-  color = "hsl(var(--muted-foreground))",
-  height = 50,
-  width = 120,
-} = Astro.props;
-
-// Obtener todos los proyectos con logo
-const allProjects = await getProjects();
-const projectsWithLogo = allProjects.filter((project) => project.data.logo);
+const logos = [
+  { src: cometa, alt: "Cometa Labs" },
+  { src: cloudGroup, alt: "The Cloud Group" },
+  { src: nexian, alt: "Nexian Labs" },
+  { src: autoboost, alt: "Autoboost" },
+  { src: olliria, alt: "Olliria" },
+  { src: rv, alt: "RV" },
+];
 ---
 
-<!-- Wrapper que se adapta al contenedor padre -->
 <div class="marquee-wrapper">
-  <!-- Contenedor con overflow y posición relativa -->
   <div class="marquee-container">
-    <!-- Degradados que se adaptan al contenedor -->
     <div class="marquee-fade bg-linear-to-r from-background left-0"></div>
     <div class="marquee-fade bg-linear-to-l from-background right-0"></div>
 
-    <!-- Scrolling content - Duplicado 4 veces para efecto infinito suave -->
     <div class="marquee-content">
-      <ClientsMarquee
-        projects={projectsWithLogo}
-        color={color}
-        height={height}
-        width={width}
-      />
-      <ClientsMarquee
-        projects={projectsWithLogo}
-        color={color}
-        height={height}
-        width={width}
-      />
-      <ClientsMarquee
-        projects={projectsWithLogo}
-        color={color}
-        height={height}
-        width={width}
-      />
-      <ClientsMarquee
-        projects={projectsWithLogo}
-        color={color}
-        height={height}
-        width={width}
-      />
+      {
+        [...logos, ...logos, ...logos, ...logos].map((logo) => (
+          <div class="logo-item">
+            <Image
+              src={logo.src}
+              alt={logo.alt}
+              height={48}
+              width={180}
+              class="h-12 w-auto max-w-[180px] object-contain"
+            />
+          </div>
+        ))
+      }
     </div>
   </div>
 </div>
@@ -111,5 +94,18 @@ const projectsWithLogo = allProjects.filter((project) => project.data.logo);
   /* Pausa al hover */
   .marquee-content:hover {
     animation-play-state: paused;
+  }
+
+  .logo-item {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.6;
+    transition: opacity 300ms ease;
+  }
+
+  .logo-item:hover {
+    opacity: 1;
   }
 </style>
