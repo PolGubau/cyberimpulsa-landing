@@ -8,57 +8,143 @@ const { class: className = "" } = Astro.props;
 
 <div class:list={["globe-wrapper", className]}>
   <canvas id="cobe-globe"></canvas>
+
+  <!-- Labels anclados a los markers via CSS Anchor Positioning -->
+  <div class="marker-label" id="label-barcelona">🏠 Barcelona</div>
+  <div class="marker-label" id="label-london">🇬🇧 Londres</div>
+  <div class="marker-label" id="label-berlin">🇩🇪 Berlín</div>
+  <div class="marker-label" id="label-paris">🇫🇷 París</div>
+  <div class="marker-label" id="label-nyc">🇺🇸 Nueva York</div>
+  <div class="marker-label" id="label-sf">🌁 San Francisco</div>
+  <div class="marker-label" id="label-toronto">🇨🇦 Toronto</div>
+  <div class="marker-label" id="label-miami">📡 Miami</div>
+  <div class="marker-label" id="label-bogota">🇨🇴 Bogotá</div>
+  <div class="marker-label" id="label-saopaulo">🇧🇷 São Paulo</div>
+  <div class="marker-label" id="label-baires">🇦🇷 Buenos Aires</div>
+  <div class="marker-label" id="label-dubai">🇦🇪 Dubai</div>
+  <div class="marker-label" id="label-tokyo">🇯🇵 Tokio</div>
+  <div class="marker-label" id="label-singapore">🇸🇬 Singapur</div>
 </div>
 
 <script>
   import createGlobe from "cobe";
 
-  // Wait for layout to be painted so offsetWidth is correct
   window.addEventListener("load", () => {
     const canvas = document.getElementById("cobe-globe") as HTMLCanvasElement;
     if (!canvas) return;
 
-    const SIZE = 600;
-    canvas.width = SIZE * 2;
-    canvas.height = SIZE * 2;
+    // Use actual rendered size — avoids over-rendering
+    const wrapper = canvas.parentElement!;
+    const DPR = Math.min(window.devicePixelRatio, 2);
+    const SIZE = wrapper.clientWidth || 480;
+    canvas.width = SIZE * DPR;
+    canvas.height = SIZE * DPR;
 
     let phi = 0;
+    let theta = 0.2;
     let rafId: number;
+    let visible = true;
+
+    // Drag state
+    let isDragging = false;
+    let lastX = 0;
+    let lastY = 0;
+    let velocityX = 0;
+    let velocityY = 0;
 
     const globe = createGlobe(canvas, {
-      devicePixelRatio: 2,
-      width: SIZE * 2,
-      height: SIZE * 2,
+      devicePixelRatio: DPR,
+      width: SIZE * DPR,
+      height: SIZE * DPR,
       phi: 0,
       theta: 0.2,
       dark: 0,
-      diffuse: 1.4,
-      mapSamples: 16000,
+      diffuse: 1.2,
+      mapSamples: 8000,
       mapBrightness: 6,
       baseColor: [0.95, 0.95, 0.98],
       markerColor: [0.153, 0.161, 0.259],
       glowColor: [0.9, 0.9, 1],
       markers: [
-        { location: [41.3851, 2.1734], size: 0.05 }, // Barcelona
-        { location: [40.4168, -3.7038], size: 0.04 }, // Madrid
-        { location: [25.7617, -80.1918], size: 0.04 }, // Miami
-        { location: [51.5074, -0.1278], size: 0.04 }, // London
-        { location: [19.4326, -99.1332], size: 0.04 }, // México DF
+        // Europa
+        { location: [41.3851, 2.1734], size: 0.06, id: "barcelona" }, // HQ
+        { location: [51.5074, -0.1278], size: 0.04, id: "london" },
+        // América del Norte
+        { location: [40.7128, -74.006], size: 0.04, id: "nyc" },
+        { location: [37.7749, -122.4194], size: 0.04, id: "sf" },
+        // América Latina
+        { location: [25.7617, -80.1918], size: 0.04, id: "miami" },
+        { location: [4.711, -74.0721], size: 0.04, id: "bogota" },
+        { location: [-34.6037, -58.3816], size: 0.04, id: "baires" },
+        // Medio Oriente & Asia
+        { location: [25.2048, 55.2708], size: 0.04, id: "dubai" },
+        { location: [35.6762, 139.6503], size: 0.04, id: "tokyo" },
+        { location: [1.3521, 103.8198], size: 0.04, id: "singapore" },
       ],
     });
 
+    // Pointer drag handlers
+    canvas.addEventListener("pointerdown", (e) => {
+      isDragging = true;
+      lastX = e.clientX;
+      lastY = e.clientY;
+      velocityX = 0;
+      velocityY = 0;
+      canvas.style.cursor = "grabbing";
+      canvas.setPointerCapture(e.pointerId);
+    });
+
+    canvas.addEventListener("pointermove", (e) => {
+      if (!isDragging) return;
+      const dx = e.clientX - lastX;
+      const dy = e.clientY - lastY;
+      phi += dx * 0.005;
+      theta = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, theta - dy * 0.005));
+      velocityX = dx;
+      velocityY = dy;
+      lastX = e.clientX;
+      lastY = e.clientY;
+    });
+
+    canvas.addEventListener("pointerup", () => {
+      isDragging = false;
+      canvas.style.cursor = "grab";
+    });
+
     function animate() {
-      phi += 0.004;
-      globe.update({ phi });
+      if (!visible) {
+        rafId = requestAnimationFrame(animate);
+        return;
+      }
+      if (!isDragging) {
+        // Auto-rotate + momentum decay
+        velocityX *= 0.92;
+        phi += 0.004 + velocityX * 0.002;
+        theta = Math.max(
+          -Math.PI / 2,
+          Math.min(Math.PI / 2, theta + velocityY * 0.002),
+        );
+        velocityY *= 0.92;
+      }
+      globe.update({ phi, theta });
       rafId = requestAnimationFrame(animate);
     }
     animate();
 
-    // Cleanup on Astro page transitions
+    // Pause when scrolled out of view
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        visible = entry.isIntersecting;
+      },
+      { threshold: 0.1 },
+    );
+    observer.observe(wrapper);
+
     document.addEventListener(
       "astro:before-swap",
       () => {
         cancelAnimationFrame(rafId);
+        observer.disconnect();
         globe.destroy();
       },
       { once: true },
@@ -73,10 +159,86 @@ const { class: className = "" } = Astro.props;
     justify-content: center;
     width: 100%;
     aspect-ratio: 1;
+    position: relative;
   }
 
   canvas {
     width: 100% !important;
     height: 100% !important;
+    cursor: grab;
+  }
+
+  /* CSS Anchor Positioning — Chrome 125+ */
+  .marker-label {
+    position: absolute;
+    bottom: anchor(top);
+    left: anchor(center);
+    translate: -50% -6px;
+    padding: 3px 8px;
+    background: #272942;
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: 600;
+    border-radius: 6px;
+    white-space: nowrap;
+    pointer-events: none;
+    transition: opacity 0.3s;
+  }
+
+  #label-barcelona {
+    position-anchor: --cobe-barcelona;
+    opacity: var(--cobe-visible-barcelona, 0);
+  }
+  #label-london {
+    position-anchor: --cobe-london;
+    opacity: var(--cobe-visible-london, 0);
+  }
+  #label-berlin {
+    position-anchor: --cobe-berlin;
+    opacity: var(--cobe-visible-berlin, 0);
+  }
+  #label-paris {
+    position-anchor: --cobe-paris;
+    opacity: var(--cobe-visible-paris, 0);
+  }
+  #label-nyc {
+    position-anchor: --cobe-nyc;
+    opacity: var(--cobe-visible-nyc, 0);
+  }
+  #label-sf {
+    position-anchor: --cobe-sf;
+    opacity: var(--cobe-visible-sf, 0);
+  }
+  #label-toronto {
+    position-anchor: --cobe-toronto;
+    opacity: var(--cobe-visible-toronto, 0);
+  }
+  #label-miami {
+    position-anchor: --cobe-miami;
+    opacity: var(--cobe-visible-miami, 0);
+  }
+  #label-bogota {
+    position-anchor: --cobe-bogota;
+    opacity: var(--cobe-visible-bogota, 0);
+  }
+  #label-saopaulo {
+    position-anchor: --cobe-saopaulo;
+    opacity: var(--cobe-visible-saopaulo, 0);
+  }
+  #label-baires {
+    position-anchor: --cobe-baires;
+    opacity: var(--cobe-visible-baires, 0);
+  }
+  #label-dubai {
+    position-anchor: --cobe-dubai;
+    opacity: var(--cobe-visible-dubai, 0);
+  }
+  #label-tokyo {
+    position-anchor: --cobe-tokyo;
+    opacity: var(--cobe-visible-tokyo, 0);
+  }
+  #label-singapore {
+    position-anchor: --cobe-singapore;
+    opacity: var(--cobe-visible-singapore, 0);
   }
 </style>

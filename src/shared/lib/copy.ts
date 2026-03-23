@@ -50,7 +50,7 @@ export const copy = {
 
 	footer: {
 		tagline: "Captación B2B para empresas tecnológicas",
-		copyright: "© Copyright 2026. Recurrev LLC. All rights reserved.",
+		copyright: "© Copyright 2026. Cyberimpulsa LLC. All rights reserved.",
 	},
 } as const;
 

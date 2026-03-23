@@ -6,24 +6,6 @@ import {
 } from "astro:content";
 import { glob } from "astro/loaders";
 
-const projects = defineCollection({
-	loader: glob({ base: "./src/content/projects", pattern: "**/*.{md,mdx}" }),
-	schema: ({ image }) =>
-		z.object({
-			title: z.string(),
-			summary: z.string(),
-			available: z.boolean(),
-			client: z.string(),
-			timeline: z.number().int().positive(),
-			endedAt: z.string().transform((str) => new Date(str)),
-			color: z.string(),
-			link: z.string().optional(),
-			cover: image(),
-			logo: image().optional(),
-			services_provided: z.array(z.string()).optional().default([]),
-		}),
-});
-
 const clients = defineCollection({
 	loader: glob({ base: "./src/content/clients", pattern: "**/*.{md,mdx}" }),
 	schema: ({ image }) =>
@@ -45,9 +27,4 @@ export type ClientMetadata = Awaited<
 	ReturnType<typeof getCollection<"clients">>
 >[number];
 
-export type Project = InferEntrySchema<"projects">;
-export type ProjectMetadata = Awaited<
-	ReturnType<typeof getCollection<"projects">>
->[number];
-
-export const collections = { projects, clients };
+export const collections = { clients };

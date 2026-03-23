@@ -2,7 +2,7 @@ export const branding = {
 	// Información de marca
 	name: "Cyberimpulsa",
 	slogan: "Captación B2B para empresas de Cyberseguridad, Software e IA",
-	legalName: "Recurrev LLC",
+	legalName: "Cyberimpulsa LLC",
 	domain: "cyberimpulsa.com",
 	url: "https://cyberimpulsa.com",
 

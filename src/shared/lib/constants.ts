@@ -1,9 +1,4 @@
-import path from "node:path";
 import { branding } from "~/config/branding";
-
-export const paths = {
-	projects: path.join(process.cwd(), "src", "content", "projects"),
-};
 
 export const baseUrl = branding.url;
 

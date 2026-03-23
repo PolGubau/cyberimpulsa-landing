@@ -1,0 +1,76 @@
+---
+import { Image } from "astro:assets";
+import { getClients } from "~/shared/lib/collections";
+import SectionHeader from "../ui/SectionHeader.astro";
+import { branding } from "~/config/branding";
+
+const clients = await getClients();
+---
+
+<section class="landing-section">
+  <SectionHeader
+    title="Empresas que ya han"
+    subtitle="acelerado su crecimiento"
+    tag="Clientes"
+    align="center"
+  />
+
+  <div class="grid sm:grid-cols-2 lg:grid-cols-2 gap-6 w-full max-w-5xl mx-auto" data-stagger="120">
+    {clients.map((client) => (
+      <article
+        class="group relative bg-accent rounded-3xl overflow-hidden shadow-pastel flex flex-col"
+        data-reveal="bottom"
+        data-speed="normal"
+        data-easing="soft"
+      >
+        {/* Cover */}
+        {client.data.cover ? (
+          <div class="relative w-full aspect-video overflow-hidden bg-muted">
+            <Image
+              src={client.data.cover}
+              alt={`Caso de éxito ${client.data.client}`}
+              width={600}
+              height={338}
+              class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+          </div>
+        ) : (
+          <div class="w-full aspect-video bg-muted" />
+        )}
+
+        {/* Content */}
+        <div class="flex flex-col gap-3 p-6 flex-1">
+          <div class="flex items-start justify-between gap-4">
+            <div>
+              <p class="font-bold text-foreground text-lg">{client.data.client}</p>
+              <p class="text-xs text-primary font-semibold uppercase tracking-wide mt-0.5">
+                {client.data.type}
+              </p>
+            </div>
+            <span class="shrink-0 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-semibold">
+              {client.data.tag}
+            </span>
+          </div>
+
+          {/* Metric highlight */}
+          <div class="flex items-baseline gap-2 mt-1">
+            <span class="text-3xl font-bold text-primary">{client.data.metric}</span>
+            <span class="text-sm text-muted-foreground">{client.data.metricLabel}</span>
+          </div>
+        </div>
+      </article>
+    ))}
+  </div>
+
+  {/* CTA */}
+  <div class="text-center mt-4">
+    <a
+      href="/clientes"
+      class="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:underline"
+    >
+      Ver todos los casos de éxito →
+    </a>
+  </div>
+</section>
+
