@@ -1,6 +1,6 @@
 export const copy = {
 	hero: {
-		title: "Impulsamos el Crecimiento de tu empresa Tecnológica",
+		title: "Impulsamos el crecimiento de tu empresa tecnológica",
 		subtitle:
 			"A través de estrategias y sistemas de Marketing enfocadas al B2B.",
 		cta: "Contactar",
