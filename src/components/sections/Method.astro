@@ -150,9 +150,14 @@ const { method } = copy;
     });
   }
 
-  window.addEventListener("scroll", updateProgressBar, { passive: true });
-  window.addEventListener("resize", updateProgressBar);
-  setTimeout(updateProgressBar, 100);
+  function init() {
+    window.addEventListener("scroll", updateProgressBar, { passive: true });
+    window.addEventListener("resize", updateProgressBar);
+    setTimeout(updateProgressBar, 100);
+  }
+
+  // Compatible con Astro View Transitions
+  document.addEventListener("astro:page-load", init);
 </script>
 
 <style>

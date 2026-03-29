@@ -20,9 +20,10 @@ const clients = await getClients();
     data-stagger="120"
   >
     {
-      clients.map((client) => (
-        <article
-          class="group relative bg-accent rounded-3xl overflow-hidden shadow-pastel flex flex-col"
+      clients.map((client, i) => (
+        <a
+          href="/clientes"
+          class="group relative bg-accent rounded-3xl overflow-hidden shadow-pastel flex flex-col cursor-pointer"
           data-reveal="bottom"
           data-speed="normal"
           data-easing="soft"
@@ -35,6 +36,8 @@ const clients = await getClients();
                 alt={`Caso de éxito ${client.data.client}`}
                 width={600}
                 height={338}
+                loading={i === 0 ? "eager" : "lazy"}
+                fetchpriority={i === 0 ? "high" : "auto"}
                 class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
               />
               <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
@@ -69,7 +72,7 @@ const clients = await getClients();
               </span>
             </div>
           </div>
-        </article>
+        </a>
       ))
     }
   </div>

@@ -57,7 +57,7 @@ const totalDuration = hero.sectors.length * 3;
       </div>
     </div>
 
-    <!-- Columna derecha: globo terráqueo -->
+    <!-- Columna derecha: globo terráqueo (solo desktop) -->
     <div
       class="hidden md:flex items-center justify-center"
       data-reveal="scale"
@@ -67,6 +67,30 @@ const totalDuration = hero.sectors.length * 3;
     >
       <Globe class="w-full max-w-[500px]" />
     </div>
+  </div>
+
+  <!-- Stats strip: solo mobile -->
+  <div
+    class="grid grid-cols-3 gap-3 w-full max-w-6xl mx-auto mb-8 md:hidden"
+    data-reveal="bottom"
+    data-speed="normal"
+    data-easing="soft"
+    data-delay="400"
+  >
+    {
+      [
+        { number: "+20k€", label: "captados en 2 meses" },
+        { number: "100%", label: "especialización B2B tech" },
+        { number: "3x", label: "más oportunidades" },
+      ].map((stat) => (
+        <div class="bg-accent rounded-2xl p-4 flex flex-col gap-1 text-center">
+          <span class="text-xl font-bold text-primary">{stat.number}</span>
+          <span class="text-xs text-muted-foreground leading-tight">
+            {stat.label}
+          </span>
+        </div>
+      ))
+    }
   </div>
 
   <script is:inline>

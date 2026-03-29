@@ -48,7 +48,7 @@ const renderedCases = await Promise.all(
   <section class="landing-section">
     <ul class="max-w-5xl mx-auto flex flex-col gap-20" data-stagger="100">
       {
-        renderedCases.map(({ data, Content }) => (
+        renderedCases.map(({ data, Content }, i) => (
           <li
             class="flex flex-col md:flex-row gap-8 items-start border-b border-muted pb-20 last:border-0"
             data-reveal="bottom"
@@ -63,6 +63,8 @@ const renderedCases = await Promise.all(
                   alt={`Proyecto de ${data.client}`}
                   width={480}
                   height={270}
+                  loading={i === 0 ? "eager" : "lazy"}
+                  fetchpriority={i === 0 ? "high" : "auto"}
                   class="w-full h-full object-cover"
                 />
               </div>
