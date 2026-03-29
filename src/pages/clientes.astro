@@ -58,8 +58,8 @@ const renderedCases = await Promise.all(
             {/* Cover image */}
             {data.cover && (
               <div
-                class="w-full md:w-80 shrink-0 rounded-2xl bg-muted flex items-end justify-center pt-6"
-                style="min-height: 200px;"
+                class="w-full md:w-80 shrink-0 rounded-2xl bg-muted flex items-end justify-center pt-3"
+                style="min-height: 260px;"
               >
                 <Image
                   src={data.cover}
@@ -68,7 +68,7 @@ const renderedCases = await Promise.all(
                   height={320}
                   loading={i === 0 ? "eager" : "lazy"}
                   fetchpriority={i === 0 ? "high" : "auto"}
-                  class="w-full max-h-48 object-contain object-bottom drop-shadow-md"
+                  class="w-full max-h-64 object-contain object-bottom drop-shadow-md"
                 />
               </div>
             )}

@@ -31,8 +31,8 @@ const clients = await getClients();
           {/* Cover */}
           {client.data.cover ? (
             <div
-              class="relative w-full bg-muted flex items-end justify-center pt-6 overflow-visible"
-              style="min-height: 200px;"
+              class="relative w-full bg-muted flex items-end justify-center pt-3 overflow-visible"
+              style="min-height: 260px;"
             >
               <Image
                 src={client.data.cover}
@@ -41,11 +41,11 @@ const clients = await getClients();
                 height={400}
                 loading={i === 0 ? "eager" : "lazy"}
                 fetchpriority={i === 0 ? "high" : "auto"}
-                class="w-full max-h-52 object-contain object-bottom transition-transform duration-500 group-hover:scale-105 drop-shadow-lg"
+                class="w-full max-h-64 object-contain object-bottom transition-transform duration-500 group-hover:scale-105 drop-shadow-lg"
               />
             </div>
           ) : (
-            <div class="w-full bg-muted" style="min-height: 200px;" />
+            <div class="w-full bg-muted" style="min-height: 260px;" />
           )}
 
           {/* Content */}
