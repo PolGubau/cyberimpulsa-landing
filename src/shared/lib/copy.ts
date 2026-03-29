@@ -35,7 +35,7 @@ export const copy = {
 	finalCta: {
 		question: "¿Listo para captar más clientes B2B?",
 		description:
-			"Agenda una consulta gratuita de 30 minutos. Analizamos tu situación y te mostramos exactamente cómo podemos ayudarte a crecer.",
+			"Agenda una asesoría gratuita de 30 minutos. Analizamos tu situación y te mostramos exactamente cómo podemos ayudarte a crecer.",
 		cta: "Agenda llamada",
 	},
 

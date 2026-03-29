@@ -99,7 +99,7 @@ const { class: className = "" } = Astro.props;
       const dx = e.clientX - lastX;
       const dy = e.clientY - lastY;
       phi += dx * 0.005;
-      theta = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, theta - dy * 0.005));
+      theta = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, theta + dy * 0.005));
       velocityX = dx;
       velocityY = dy;
       lastX = e.clientX;

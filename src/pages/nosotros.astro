@@ -22,7 +22,7 @@ const team = [
     role: "Project Manager",
     description:
       "Coordina la implementación del sistema de captación. Garantiza que cada proyecto genera resultados medibles desde el primer mes.",
-    linkedin: branding.social.linkedin,
+    linkedin: null,
     photo: patriciaPhoto,
   },
   {
@@ -30,7 +30,7 @@ const team = [
     role: "Account Manager",
     description:
       "Gestiona el día a día con los clientes y el seguimiento de los resultados. Tu punto de contacto para cualquier necesidad.",
-    linkedin: branding.social.linkedin,
+    linkedin: null,
     photo: joelPhoto,
   },
 ];
@@ -108,14 +108,16 @@ const team = [
               <p class="text-muted-foreground text-sm leading-relaxed">
                 {member.description}
               </p>
-              <a
-                href={member.linkedin}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="text-xs text-primary hover:underline"
-              >
-                Ver en LinkedIn →
-              </a>
+              {member.linkedin && (
+                <a
+                  href={member.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-xs text-primary hover:underline"
+                >
+                  Ver en LinkedIn →
+                </a>
+              )}
             </div>
           ))
         }
@@ -139,7 +141,7 @@ const team = [
       data-speed="normal"
       data-easing="soft"
     >
-      Agenda una consulta gratuita y te explicamos exactamente cómo trabajamos.
+      Agenda una asesoría gratuita y te explicamos exactamente cómo trabajamos.
     </p>
     <div data-reveal="scale" data-speed="fast" data-easing="elastic">
       <a

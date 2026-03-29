@@ -28,19 +28,13 @@ const pathname = Astro.url.pathname;
     href="/"
     class="flex cursor-pointer items-center gap-2 hover:opacity-80 transition-opacity px-2"
   >
-    <!-- ISO: se colapsa al hacer scroll -->
-    <div
-      id="nav-logo-iso"
-      class="overflow-hidden transition-all duration-300 ease-in-out rounded-full"
-      style="width: 28px; opacity: 1;"
-    >
-      <Image
-        src={isoLogo}
-        alt={branding.name}
-        height={28}
-        class="h-7 w-auto object-contain"
-      />
-    </div>
+    <Image
+      src={isoLogo}
+      alt={branding.name}
+      width={28}
+      height={28}
+      class="size-5 object-contain"
+    />
     <!-- Nombre siempre visible -->
     <span class="text-xl font-bold text-primary">{branding.name}</span>
   </a>
@@ -136,23 +130,6 @@ const pathname = Astro.url.pathname;
 
 <script>
   function initNavbar() {
-    // Logo ISO collapse on scroll
-    const logoIso = document.getElementById("nav-logo-iso");
-    const updateLogo = () => {
-      if (!logoIso) return;
-      if (window.scrollY > 40) {
-        logoIso.style.width = "0px";
-        logoIso.style.opacity = "0";
-        logoIso.style.marginRight = "0px";
-      } else {
-        logoIso.style.width = "28px";
-        logoIso.style.opacity = "1";
-        logoIso.style.marginRight = "";
-      }
-    };
-    window.addEventListener("scroll", updateLogo, { passive: true });
-    updateLogo();
-
     // Mobile menu
     const menuButton = document.getElementById("mobile-menu-button");
     const mobileMenu = document.getElementById("mobile-menu");

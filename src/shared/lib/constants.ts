@@ -17,7 +17,7 @@ export function getMetadata() {
 		picture: branding.assets.logo,
 
 		getInTouch: {
-			label: "Agenda una consulta",
+			label: "Agenda una asesoría",
 
 			short_label: "Agenda llamada",
 
