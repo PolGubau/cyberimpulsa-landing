@@ -108,7 +108,7 @@ const totalDuration = hero.sectors.length * 3;
       {
         hero.sectors.map((sector, i) => (
           <span
-            class="animated-sector text-4xl md:text-6xl font-bold text-primary"
+            class="animated-sector text-3xl sm:text-4xl md:text-6xl font-bold text-primary"
             style={`--delay: ${i * 3}s; --total: ${totalDuration}s;`}
           >
             {sector}
@@ -122,8 +122,15 @@ const totalDuration = hero.sectors.length * 3;
 <style>
   .sectors-container {
     position: relative;
-    height: 3.5rem;
+    height: 3rem;
     width: 100%;
+    overflow: hidden;
+  }
+
+  @media (min-width: 640px) {
+    .sectors-container {
+      height: 3.5rem;
+    }
   }
 
   @media (min-width: 768px) {
@@ -135,10 +142,14 @@ const totalDuration = hero.sectors.length * 3;
   .animated-sector {
     position: absolute;
     top: 0;
-    left: 50%;
-    white-space: nowrap;
+    left: 0;
+    right: 0;
+    width: 100%;
+    text-align: center;
+    white-space: normal;
+    word-break: break-word;
     opacity: 0;
-    transform: translateX(-50%) translateY(20px);
+    transform: translateY(20px);
     animation: sectorCycle var(--total) ease-in-out infinite;
     animation-delay: var(--delay);
   }
@@ -146,23 +157,23 @@ const totalDuration = hero.sectors.length * 3;
   @keyframes sectorCycle {
     0% {
       opacity: 0;
-      transform: translateX(-50%) translateY(20px);
+      transform: translateY(20px);
     }
     5% {
       opacity: 1;
-      transform: translateX(-50%) translateY(0);
+      transform: translateY(0);
     }
     28% {
       opacity: 1;
-      transform: translateX(-50%) translateY(0);
+      transform: translateY(0);
     }
     33% {
       opacity: 0;
-      transform: translateX(-50%) translateY(-20px);
+      transform: translateY(-20px);
     }
     100% {
       opacity: 0;
-      transform: translateX(-50%) translateY(-20px);
+      transform: translateY(-20px);
     }
   }
 </style>

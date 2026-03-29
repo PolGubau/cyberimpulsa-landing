@@ -44,14 +44,16 @@ const { method } = copy;
     <div class="relative space-y-24" data-stagger="150">
       <!-- Progress bar (background line) -->
       <div
-        class="block absolute left-4 lg:left-5 top-0 bottom-0 w-0.5 bg-muted"
+        id="progress-bg"
+        class="block absolute left-4 lg:left-5 w-0.5 bg-muted"
+        style="top: 0; height: 0"
       >
       </div>
       <!-- Progress line (animated) -->
       <div
         id="progress-line"
-        class="block absolute left-4 lg:left-5 top-0 w-0.5 bg-primary transition-all duration-300"
-        style="height: 0%"
+        class="block absolute left-4 lg:left-5 w-0.5 bg-primary transition-all duration-300"
+        style="top: 0; height: 0"
       >
       </div>
       {
@@ -92,45 +94,55 @@ const { method } = copy;
 </section>
 
 <script>
-  // Animate progress bar on scroll
   function updateProgressBar() {
     const progressLine = document.getElementById("progress-line");
     const stepsContainer =
       document.querySelector(".method-step")?.parentElement;
-    const stepBadges = document.querySelectorAll(".step-badge");
+    const stepBadges = document.querySelectorAll<HTMLElement>(".step-badge");
 
     if (!progressLine || !stepsContainer || stepBadges.length === 0) return;
 
-    const containerRect = stepsContainer.getBoundingClientRect();
-    const containerTop = containerRect.top + window.scrollY;
-    const scrollPosition = window.scrollY + window.innerHeight / 2;
+    const scrollMidpoint = window.scrollY + window.innerHeight / 2;
 
-    // Get the last badge position
+    // All positions calculated from document top (stable across scroll)
+    const containerTop =
+      stepsContainer.getBoundingClientRect().top + window.scrollY;
+
+    const firstBadge = stepBadges[0];
     const lastBadge = stepBadges[stepBadges.length - 1];
+
+    const firstBadgeRect = firstBadge.getBoundingClientRect();
     const lastBadgeRect = lastBadge.getBoundingClientRect();
-    const lastBadgeTop = lastBadgeRect.top + window.scrollY;
-    const lastBadgeCenter = lastBadgeTop + lastBadgeRect.height / 2;
 
-    // Calculate the maximum height (from container top to last badge center)
-    const maxHeight = lastBadgeCenter - containerTop;
+    const firstBadgeCenter =
+      firstBadgeRect.top + window.scrollY + firstBadgeRect.height / 2;
+    const lastBadgeCenter =
+      lastBadgeRect.top + window.scrollY + lastBadgeRect.height / 2;
 
-    // Calculate current progress
-    const relativeScroll = scrollPosition - containerTop;
-    const currentHeight = Math.max(0, Math.min(maxHeight, relativeScroll));
+    // Line starts at first badge center, ends at last badge center
+    const lineStart = firstBadgeCenter - containerTop;
+    const lineEnd = lastBadgeCenter - containerTop;
+    const totalLength = lineEnd - lineStart;
 
-    // Set the height in pixels instead of percentage
-    progressLine.style.height = `${currentHeight}px`;
+    const relativeScroll = scrollMidpoint - containerTop - lineStart;
+    const currentLength = Math.max(0, Math.min(totalLength, relativeScroll));
 
-    // Activate badges when progress line reaches them
+    // Sync background track to same bounds as animated line
+    const progressBg = document.getElementById("progress-bg");
+    if (progressBg) {
+      progressBg.style.top = `${lineStart}px`;
+      progressBg.style.height = `${totalLength}px`;
+    }
+
+    progressLine.style.top = `${lineStart}px`;
+    progressLine.style.height = `${currentLength}px`;
+
+    // Activate badges
+    const progressBottom = containerTop + lineStart + currentLength;
     stepBadges.forEach((badge) => {
       const badgeRect = badge.getBoundingClientRect();
-      const badgeTop = badgeRect.top + window.scrollY;
-      const badgeCenter = badgeTop + badgeRect.height / 2;
-
-      // Check if progress line has reached this badge
-      const progressLineBottom = containerTop + currentHeight;
-
-      if (progressLineBottom >= badgeCenter) {
+      const badgeCenter = badgeRect.top + window.scrollY + badgeRect.height / 2;
+      if (progressBottom >= badgeCenter) {
         badge.classList.add("active");
       } else {
         badge.classList.remove("active");
@@ -138,11 +150,8 @@ const { method } = copy;
     });
   }
 
-  // Update on scroll
-  window.addEventListener("scroll", updateProgressBar);
+  window.addEventListener("scroll", updateProgressBar, { passive: true });
   window.addEventListener("resize", updateProgressBar);
-
-  // Initial update
   setTimeout(updateProgressBar, 100);
 </script>
 
