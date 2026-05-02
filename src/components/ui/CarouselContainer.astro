@@ -47,6 +47,12 @@ const { autoScroll = false, speed = 40 } = Astro.props;
       .pause-animation:hover {
         animation-play-state: paused;
       }
+
+      @media (max-width: 767px) {
+        .animate-marquee {
+          animation-duration: 15s !important;
+        }
+      }
     `}
     </style>
   )

@@ -8,8 +8,7 @@ export const branding = {
 
 	// Contacto
 	contact: {
-		calendlyUrl:
-			"https://calendly.com/klientify/consulta-saas-marketing-gratuito",
+		calendlyUrl: "https://calendly.com/cyberimpulsa/llamada",
 		phones: [
 			{ number: "34633857457", display: "+34 633 857 457" },
 			{ number: "376332902", display: "+376 332 902" },
@@ -19,10 +18,8 @@ export const branding = {
 
 	// Redes sociales
 	social: {
-		twitter: "https://twitter.com/cyberimpulsa",
 		linkedin: "https://www.linkedin.com/company/cyberimpulsa",
 		instagram: "https://instagram.com/cyberimpulsa",
-		youtube: "https://youtube.com/@cyberimpulsa",
 	},
 
 	// Ubicación
